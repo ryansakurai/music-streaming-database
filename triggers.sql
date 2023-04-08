@@ -1,116 +1,116 @@
-create function atualizar_qt_curtidas()
+create function update_qt_likes()
 returns trigger as $$
 begin
 	if (TG_OP = 'INSERT') then
-		update musica
-		set musica_qt_curtidas = musica_qt_curtidas + 1
-		where (artista_nome, musica_titulo) = (new.artista_nome, new.musica_titulo);
+		update song
+		set song_qt_likes = song_qt_likes + 1
+		where (artist_name, song_title) = (new.artist_name, new.song_title);
 
-		update artista
-		set artista_qt_curtidas = artista_qt_curtidas + 1
-		where artista_nome = new.artista_nome;
+		update artist
+		set artist_qt_likes = artist_qt_likes + 1
+		where artist_name = new.artist_name;
 	elsif (TG_OP = 'DELETE') then
-		update musica
-		set musica_qt_curtidas = musica_qt_curtidas - 1
-		where (artista_nome, musica_titulo) = (old.artista_nome, old.musica_titulo);
+		update song
+		set song_qt_likes = song_qt_likes - 1
+		where (artist_name, song_title) = (old.artist_name, old.song_title);
 
-		update artista
-		set artista_qt_curtidas = artista_qt_curtidas - 1
-		where artista_nome = old.artista_nome;
+		update artist
+		set artist_qt_likes = artist_qt_likes - 1
+		where artist_name = old.artist_name;
 	end if;
 	return new;
 end;
 $$ language plpgsql;
 
-create trigger atualizar_qt_curtidas
-after insert or delete on usuario_curte_musica
+create trigger update_qt_likes
+after insert or delete on user_likes_song
 for each row
-execute function atualizar_qt_curtidas();
+execute function update_qt_likes();
 
 
-create function atualizar_artista_qt_seguidores()
+create function update_artist_qt_followers()
 returns trigger as $$
 begin
 	if (TG_OP = 'INSERT') then
-		update artista
-		set artista_qt_seguidores = artista_qt_seguidores + 1
-		where artista_nome = new.artista_nome;
+		update artist
+		set artist_qt_followers = artist_qt_followers + 1
+		where artist_name = new.artist_name;
 	elsif (TG_OP = 'DELETE') then
-		update artista
-		set artista_qt_seguidores = artista_qt_seguidores - 1
-		where artista_nome = old.artista_nome;
+		update artist
+		set artist_qt_followers = artist_qt_followers - 1
+		where artist_name = old.artist_name;
 	end if;
     return new;
 end;
 $$ language plpgsql;
 
-create trigger atualizar_artista_qt_seguidores
-after insert or delete on usuario_segue_artista
+create trigger update_artist_qt_followers
+after insert or delete on user_follows_artist
 for each row
-execute function atualizar_artista_qt_seguidores();
+execute function update_artist_qt_followers();
 
 
-create function atualizar_playlist_qt_seguidores()
+create function update_playlist_qt_followers()
 returns trigger as $$
 begin
 	if (TG_OP = 'INSERT') then
 		update playlist
-		set playlist_qt_seguidores = playlist_qt_seguidores + 1
-		where (usuario_apelido, playlist_nome) = (new.autor_playlist_apelido, new.playlist_nome);
+		set playlist_qt_followers = playlist_qt_followers + 1
+		where (user_nickname, playlist_name) = (new.playlist_author_nickname, new.playlist_name);
 	elsif (TG_OP = 'DELETE') then
 		update playlist
-		set playlist_qt_seguidores = playlist_qt_seguidores - 1
-		where (usuario_apelido, playlist_nome) = (old.autor_playlist_apelido, old.playlist_nome);
+		set playlist_qt_followers = playlist_qt_followers - 1
+		where (user_nickname, playlist_name) = (old.playlist_author_nickname, old.playlist_name);
 	end if;
     return new;
 end;
 $$ language plpgsql;
 
-create trigger atualizar_playlist_qt_seguidores
-after insert or delete on usuario_segue_playlist
+create trigger update_playlist_qt_followers
+after insert or delete on user_follows_playlist
 for each row
-execute function atualizar_playlist_qt_seguidores();
+execute function update_playlist_qt_followers();
 
 
-create function checar_data_adicao()
+create function check_addition_date()
 returns trigger as $$
 begin
-    if new.data_adicao < all (
-		select lancamento_data_publicacao
-		from lancamento l
-		join lancamento_contem_musica rel
-		on (l.artista_nome, l.lancamento_titulo, l.lancamento_tipo) = (rel.lancamento_artista_nome, rel.lancamento_titulo, rel.lancamento_tipo)
-		where (new.artista_nome, new.musica_titulo) = (musica_artista_nome, musica_titulo)
+    if new.addition_date < all (
+		select release_date
+		from release r
+		join release_has_song rhs
+		on (r.artist_name, r.release_title, r.release_type) = (rhs.release_artist_name, rhs.release_title, rhs.release_type)
+		where (new.artist_name, new.song_title) = (song_artist_name, song_title)
 	) then
-        raise exception 'data_adicao precisa ser depois da música ter sido lançada!';
+        raise exception 'Addition date has to be greater than the song''s release date';
     END if;
     RETURN new;
 END;
 $$ LANGUAGE plpgsql;
 
-create trigger checar_data_adicao
-before insert on playlist_contem_musica
+create trigger check_addition_date
+before insert on playlist_has_song
 for each row
-execute function checar_data_adicao();
+execute function check_addition_date();
 
 
-create function checar_data_curtida()
+create function check_like_date()
 returns trigger as $$
 begin
-    if new.data_curtida < all (
-		select lancamento_data_publicacao
-		from lancamento l
-		join lancamento_contem_musica rel
-		on (l.artista_nome, l.lancamento_titulo, l.lancamento_tipo) = (rel.lancamento_artista_nome, rel.lancamento_titulo, rel.lancamento_tipo)
-		where (new.artista_nome, new.musica_titulo) = (musica_artista_nome, musica_titulo)
+    if new.like_date < all (
+		select release_date
+		from release r
+		join release_has_song rhs
+		on (r.artist_name, r.release_title, r.release_type) = (rhs.release_artist_name, rhs.release_title, rhs.release_type)
+		where (new.artist_name, new.song_title) = (song_artist_name, song_title)
 	) then
-        raise exception 'data_curtida precisa ser depois da música ter sido lançada!';
+        raise exception 'Like date must be greater than the song''s release date';
     END if;
     RETURN new;
 END;
 $$ LANGUAGE plpgsql;
 
-create trigger checar_data_curtida
-before insert on usuario_curte_musica
+create trigger check_like_date
+before insert on user_likes_song
 for each row
-execute function checar_data_curtida();
+execute function check_like_date();
