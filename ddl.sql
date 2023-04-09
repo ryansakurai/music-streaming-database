@@ -99,12 +99,12 @@ create table user_follows_artist(
 
 create table user_follows_playlist(
     follower_nickname varchar(25),
-    playlist_author_nickname varchar(25),
+    playlist_creator_nickname varchar(25),
     playlist_name varchar(50),
 
     foreign key (follower_nickname) references "user"(user_nickname) on delete cascade on update cascade,
-    foreign key (playlist_author_nickname, playlist_name) references playlist(user_nickname, playlist_name) on delete cascade on update cascade,
-    primary key (follower_nickname, playlist_author_nickname, playlist_name)
+    foreign key (playlist_creator_nickname, playlist_name) references playlist(user_nickname, playlist_name) on delete cascade on update cascade,
+    primary key (follower_nickname, playlist_creator_nickname, playlist_name)
 );
 
 create table playlist_has_song(

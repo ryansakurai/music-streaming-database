@@ -1,72 +1,70 @@
--- Liste todos os lançamentos de um determinado artista.
+-- List every release from a certain artist
 select *
-from lancamento
-where artista_nome = <artista_nome>;
+from release
+where artist_name = <artist_name>;
 
--- Quantas músicas num intervalo de duração entre x e y tem por playlist?
-select playlist_nome, usuario_apelido, count(*) as qtd
-from playlist_contem_musica natural join musica
-where musica_duracao between <duracao_x> and <duracao_y>
-group by playlist_nome, usuario_apelido;
+-- How many songs with durations between X and Y are there by playlist?
+select playlist_name, user_nickname, count(*) as qt_songs
+from playlist_has_song natural join song
+where song_duration between <duration_x> and <duration_y>
+group by playlist_name, user_nickname;
 
--- Qual é a música mais curtida de um determinado artista?
+-- What's the most liked song by a certain artist?
 select *
-from musica
-where artista_nome = <artista_nome>
-and musica_qt_curtidas = (
-	select max(musica_qt_curtidas)
-	from musica
-	where artista_nome = <artista_nome>
+from song
+where artist_name = <artist_name>
+and song_qt_likes = (
+	select max(song_qt_likes)
+	from song
+	where artist_name = <artist_name>
 )
 
--- Quantos seguidores um determinado artista possui?
-select artista_qt_seguidores
-from artista
-where artista_nome = <artista_nome>
+-- How many followers does a certain artist have?
+select artist_name, artist_qt_followers
+from artist
+where artist_name = <artist_name>
 
--- Quais usuários curtem o gênero X e não curtem o gênero Y?
+-- Which users like genre X but not genre Y?
 (
-    select usuario_apelido, usuario_nome
-    from usuario natural join usuario_curte_musica natural join genero
-    where genero_nome = <genero_nome_x>
+    select user_nickname, user_name
+    from "user" natural join user_likes_song natural join genre
+    where genre_name = <genre_name_x>
 )
 except (
-	select usuario_apelido, usuario_nome
-	from usuario natural join usuario_curte_musica natural join genero
-	where genero_nome = <genero_nome_y>
+	select user_nickname, user_name
+	from "user" natural join user_likes_song natural join genre
+	where genre_name = <genre_name_y>
 );
 
--- Qual é a música com menor duração de um determinado artista?
+-- Whats the shortest song from a certain artist?
 select *
-from musica
-where artista_nome = <artista_nome>
-and musica_duracao = (
-	select min(musica_duracao)
-	from musica
-	where artista_nome = <artista_nome>
+from song s1
+where s1.artist_name = <artist_name>
+and song_duration = (
+	select min(song_duration)
+	from song s2
+	where s2.artist_name = s1.artist_name
 );
 
--- Qual a duração de um determinado lançamento do tipo álbum de um certo artista?
-select sum(mus.musica_duracao) as duracao
-from lancamento lanc
-join lancamento_contem_musica rel on (rel.lancamento_artista_nome, rel.lancamento_titulo, rel.lancamento_tipo) = (lanc.artista_nome, lanc.lancamento_titulo, lanc.lancamento_tipo)
-join musica mus on (rel.musica_artista_nome, rel.musica_titulo) = (mus.artista_nome, mus.musica_titulo)
-where (lanc.artista_nome, lanc.lancamento_titulo, lanc.lancamento_tipo) = (<artista_nome>, <lancamento_titulo>, 'Álbum');
+-- What's the duration of a certain album? (without using views)
+select r.artist_name, r.release_title, r.release_type, sum(s.song_duration) as release_duration
+from release r
+join release_has_song rhs on (rhs.release_artist_name, rhs.release_title, rhs.release_type) = (r.artist_name, r.release_title, r.release_type)
+join song s on (s.artist_name, s.song_title) = (rhs.song_artist_name, rhs.song_title)
+where (r.artist_name, r.release_title, r.release_type) = (<artist_name>, <release_title>, 'Album');
 
-select lancamento_duracao
-from lancamento_completo
-where (artista_nome, lancamento_titulo, lancamento_tipo) = (<artista_nome>, <lancamento_titulo>, 'Álbum');
+-- What's the duration of a certain album? (using views)
+select artist_name, release_title, release_type, release_duration
+from release_extended
+where (artist_name, release_title, release_type) = (<artist_name>, <release_title>, 'Álbum');
 
--- Quais usuários que curtem uma playlist também curtem outra playlist do mesmo criador?
-select seguidor_apelido
-from (
-	select seguidor_apelido, autor_playlist_apelido, count(playlist_nome) as qtd_playlists
-	from usuario_segue_playlist
-	group by seguidor_apelido, autor_playlist_apelido
-) contagem
-where qtd_playlists > 1;
+-- Which users like more than one playlist by the same creator?
+select follower_nickname, playlist_creator_nickname, count(*) as qt_playlists
+from user_follows_playlist
+group by follower_nickname, playlist_creator_nickname
+having qt_playlists > 1;
 
--- Qual é a média de curtidas por música de cada artista?
-select artista_nome, avg(musica_qt_curtidas) as media_curtidas
-from musica
-group by artista_nome
+-- What's the average quantity of likes in songs by each artist
+select artist_name, avg(song_qt_likes) as average_likes
+from song
+group by artist_name
