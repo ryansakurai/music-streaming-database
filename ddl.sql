@@ -13,7 +13,6 @@ create table release(
     artist_name varchar(50),
     release_title varchar(100),
     release_type varchar(10) check (release_type in ('Album', 'EP', 'Single')),
-    release_copyright varchar(50) not null,
     release_date date not null check (release_date <= current_date),
 
     foreign key (artist_name) references artist(artist_name) on delete cascade on update cascade,
