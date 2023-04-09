@@ -56,11 +56,11 @@ begin
 	if (TG_OP = 'INSERT') then
 		update playlist
 		set playlist_qt_followers = playlist_qt_followers + 1
-		where (user_nickname, playlist_name) = (new.playlist_author_nickname, new.playlist_name);
+		where (user_nickname, playlist_name) = (new.playlist_creator_nickname, new.playlist_name);
 	elsif (TG_OP = 'DELETE') then
 		update playlist
 		set playlist_qt_followers = playlist_qt_followers - 1
-		where (user_nickname, playlist_name) = (old.playlist_author_nickname, old.playlist_name);
+		where (user_nickname, playlist_name) = (old.playlist_creator_nickname, old.playlist_name);
 	end if;
     return new;
 end;

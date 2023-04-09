@@ -247,7 +247,7 @@ insert into user_follows_artist (user_nickname, artist_name) values
 ('celia_santos', 'Luan Santana'),
 ('diana_pereira', 'Bring Me The Horizon');
 
-insert into user_follows_playlist(seguidor_nickname, autor_playlist_nickname, playlist_name) values
+insert into user_follows_playlist(follower_nickname, playlist_creator_nickname, playlist_name) values
 ('ana_santos', 'thiwan', 'Para Relaxar'),
 ('carla_pereira', 'hugo', 'Viagem Tranquila'),
 ('beatriz_goncalves', 'hugo', 'Músicas Para Se Concentrar'),
@@ -283,7 +283,7 @@ insert into user_follows_playlist(seguidor_nickname, autor_playlist_nickname, pl
 ('mini_musculoso', 'hugo', 'Músicas Para Se Concentrar'),
 ('paula_vieira', 'ana_santos', 'Músicas para Animar o Dia');
 
-insert into playlist_has_song (user_nickname, playlist_name, artist_name, song_title, data_adicao) values
+insert into playlist_has_song (user_nickname, playlist_name, artist_name, song_title, addition_date) values
 ('thiwan', 'Para Relaxar', 'Luan Santana', 'Escreve Aí', '2022-05-20'),
 ('thiwan', 'Para Relaxar', 'Luan Santana', 'Sinais', '2022-06-02'),
 ('thiwan', 'Para Relaxar', 'Gus Dapperton', 'Ditch', '2022-07-12'),
