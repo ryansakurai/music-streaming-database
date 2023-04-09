@@ -29,10 +29,20 @@ create table song(
     primary key (artist_name, song_title)
 );
 
+create table feature(
+    artist_name varchar(50),
+    song_title varchar(100),
+    feature_name varchar(50),
+
+    foreign key (artist_name, song_title) references song(artist_name, song_title) on delete cascade on update cascade,
+    foreign key (feature_name) references artist(artist_name) on delete cascade on update cascade,
+    primary key (artist_name, song_title, feature_name)
+);
+
 create table genre(
     artist_name varchar(50),
     song_title varchar(100),
-    genre_name varchar(10) check (genre_name in ('Classical', 'Sertanejo', 'EDM', 'Brazilian Funk', 'Hip Hop', 'Jazz', 'Pop', 'R&B', 'Rock', 'Metal', 'Punk', 'Samba', 'Pagode', 'MPB')),
+    genre_name varchar(10) check (genre_name in ('Sertanejo', 'EDM', 'Brazilian Funk', 'Hip Hop', 'Pop', 'R&B', 'Rock', 'Metal', 'Punk')),
 
     foreign key (artist_name, song_title) references song(artist_name, song_title) on delete cascade on update cascade,
     primary key (artist_name, song_title, genre_name)
@@ -53,16 +63,6 @@ create table playlist(
 
     foreign key (user_nickname) references "user"(user_nickname) on delete cascade on update cascade,
     primary key (user_nickname, playlist_name)
-);
-
-create table feature(
-    artist_name varchar(50),
-    song_title varchar(100),
-    feature_name varchar(50),
-
-    foreign key (artist_name, song_title) references song(artist_name, song_title) on delete cascade on update cascade,
-    foreign key (feature_name) references artist(artist_name) on delete cascade on update cascade,
-    primary key (artist_name, song_title, feature_name)
 );
 
 create table release_has_song(
