@@ -39,7 +39,7 @@ create table genre(
     primary key (artist_name, song_title, genre_name)
 );
 
-create table user(
+create table "user"(
     user_nickname varchar(25),
     user_name varchar(50),
     user_email varchar(50) unique not null check (user_email like '_%@_%._%'),
@@ -52,7 +52,7 @@ create table playlist(
     playlist_name varchar(50),
     playlist_qt_followers bigint default 0,
 
-    foreign key (user_nickname) references user(user_nickname) on delete cascade on update cascade,
+    foreign key (user_nickname) references "user"(user_nickname) on delete cascade on update cascade,
     primary key (user_nickname, playlist_name)
 );
 
@@ -84,7 +84,7 @@ create table user_likes_song(
     song_title varchar(100),
     like_date date not null default current_date check (like_date <= current_date),
 
-    foreign key (user_nickname) references user(user_nickname) on delete cascade on update cascade,
+    foreign key (user_nickname) references "user"(user_nickname) on delete cascade on update cascade,
     foreign key (artist_name, song_title) references song(artist_name, song_title) on delete cascade on update cascade,
     primary key (user_nickname, artist_name, song_title)
 );
@@ -93,7 +93,7 @@ create table user_follows_artist(
     user_nickname varchar(25),
     artist_name varchar(50),
 
-    foreign key (user_nickname) references user(user_nickname) on delete cascade on update cascade,
+    foreign key (user_nickname) references "user"(user_nickname) on delete cascade on update cascade,
     foreign key (artist_name) references artist(artist_name) on delete cascade on update cascade,
     primary key (user_nickname, artist_name)
 );
@@ -103,7 +103,7 @@ create table user_follows_playlist(
     playlist_author_nickname varchar(25),
     playlist_name varchar(50),
 
-    foreign key (follower_nickname) references user(user_nickname) on delete cascade on update cascade,
+    foreign key (follower_nickname) references "user"(user_nickname) on delete cascade on update cascade,
     foreign key (playlist_author_nickname, playlist_name) references playlist(user_nickname, playlist_name) on delete cascade on update cascade,
     primary key (follower_nickname, playlist_author_nickname, playlist_name)
 );
