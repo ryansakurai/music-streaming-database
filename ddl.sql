@@ -1,5 +1,3 @@
-create database yfitops;
-
 create table artist(
     artist_name varchar(50),
     artist_about text,
