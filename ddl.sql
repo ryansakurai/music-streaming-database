@@ -40,7 +40,7 @@ create table feature(
 create table genre(
     artist_name varchar(50),
     song_title varchar(100),
-    genre_name varchar(10) check (genre_name in ('Sertanejo', 'EDM', 'Brazilian Funk', 'Hip Hop', 'Pop', 'R&B', 'Rock', 'Metal', 'Punk')),
+    genre_name varchar(14) check (genre_name in ('Sertanejo', 'EDM', 'Brazilian Funk', 'Hip Hop', 'Pop', 'R&B', 'Rock', 'Metal', 'Punk')),
 
     foreign key (artist_name, song_title) references song(artist_name, song_title) on delete cascade on update cascade,
     primary key (artist_name, song_title, genre_name)
