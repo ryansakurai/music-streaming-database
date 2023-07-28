@@ -1,6 +1,6 @@
--- Informations are not that accurate, it's just a sample
+-- Informations are not that accurate, it's just a sample (generated using ChatGPT)
 
-insert into artist(artist_name, artist_about) values
+INSERT INTO artist(artist_name, artist_about) VALUES
 ('Bring Me The Horizon', 'Bring Me the Horizon is a British rock band formed in Sheffield in 2004. Their music style has evolved from metalcore to alternative rock and pop. They have released several albums, including "Sempiternal," "That''s the Spirit," and "amo."'),
 ('Dani Filth', 'Dani Filth is an English musician, best known as the lead vocalist of the extreme metal band Cradle of Filth.'),
 ('Gus Dapperton', 'Gus Dapperton is an American singer-songwriter and musician. He is known for his indie pop style and has released several albums, including "Where Polly People Go to Read" and "Orca."'),
@@ -8,7 +8,7 @@ insert into artist(artist_name, artist_about) values
 ('Caetano Veloso', 'Caetano Veloso is a Brazilian musician, singer, songwriter, and political activist.'),
 ('Pabllo Vittar', 'Pabllo Vittar is a Brazilian drag queen, singer, and songwriter, known for her pop music that blends Brazilian rhythms with electronic beats.');
 
-insert into release(artist_name, release_title, release_type, release_date) values
+INSERT INTO release(artist_name, release_title, release_type, release_date) VALUES
 ('Bring Me The Horizon', 'That''s The Spirit', 'Album', '2015-09-11'),
 ('Bring Me The Horizon', 'amo', 'Album', '2019-01-25'),
 ('Bring Me The Horizon', 'Drown', 'Single', '2014-10-21'),
@@ -23,7 +23,7 @@ insert into release(artist_name, release_title, release_type, release_date) valu
 ('Luan Santana', 'Live-Móvel', 'EP', '2017-11-10'),
 ('Luan Santana', 'Morena', 'Single', '2022-02-25');
 
-insert into song(artist_name, song_title, song_duration) values
+INSERT INTO song(artist_name, song_title, song_duration) VALUES
 ('Bring Me The Horizon', 'Throne', '00:03:11'),
 ('Bring Me The Horizon', 'True Friends', '00:03:52'),
 ('Bring Me The Horizon', 'Drown', '00:03:42'),
@@ -52,12 +52,12 @@ insert into song(artist_name, song_title, song_duration) values
 ('Luan Santana', 'Tudo que você quiser', '00:03:18'),
 ('Luan Santana', 'Morena', '00:03:05');
 
-insert into feature(artist_name, song_title, feature_name) values
+INSERT INTO feature(artist_name, song_title, feature_name) VALUES
 ('Bring Me The Horizon', 'Wonderful Life', 'Dani Filth'),
 ('Luan Santana', 'Você de Mim Não Sai', 'Caetano Veloso'),
 ('Luan Santana', 'Você de Mim Não Sai', 'Pabllo Vittar');
 
-insert into genre(artist_name, song_title, genre_name) values
+INSERT INTO genre(artist_name, song_title, genre_name) VALUES
 ('Bring Me The Horizon', 'Throne', 'Rock'),
 ('Bring Me The Horizon', 'True Friends', 'Rock'),
 ('Bring Me The Horizon', 'True Friends', 'Punk'),
@@ -89,7 +89,7 @@ insert into genre(artist_name, song_title, genre_name) values
 ('Luan Santana', 'Tudo que você quiser', 'Sertanejo'),
 ('Luan Santana', 'Morena', 'Sertanejo');
 
-insert into "user"(user_nickname, user_name, user_email) values 
+INSERT INTO "user"(user_nickname, USER_NAME, user_email) VALUES 
 ('ana_santos', 'Ana Santos', 'ana.santos@gmail.com'),
 ('carla_pereira', 'Carla Pereira', 'carla.pereira@gmail.com'),
 ('beatriz_goncalves', 'Beatriz Gonçalves', 'beatriz.goncalves@gmail.com'),
@@ -121,14 +121,14 @@ insert into "user"(user_nickname, user_name, user_email) values
 ('mini_musculoso', 'Marcelo Pirro', 'marcelo.pirro@gmail.com'),
 ('paula_vieira', 'Paula Vieira', 'paula.vieira@gmail.com');
 
-insert into playlist(user_nickname, playlist_name) values
+INSERT INTO playlist(user_nickname, playlist_name) VALUES
 ('thiwan', 'Para Relaxar'),
 ('hugo', 'Viagem Tranquila'),
 ('hugo', 'Músicas Para Se Concentrar'),
 ('ana_santos', 'Clássicos de Todos os Tempos'),
 ('ana_santos', 'Músicas para Animar o Dia');
 
-insert into release_has_song(release_artist_name, release_title, release_type, song_artist_name, song_title) values
+INSERT INTO release_has_song(release_artist_name, release_title, release_type, song_artist_name, song_title) VALUES
 ('Bring Me The Horizon', 'That''s The Spirit', 'Album', 'Bring Me The Horizon', 'Throne'),
 ('Bring Me The Horizon', 'That''s The Spirit', 'Album', 'Bring Me The Horizon', 'True Friends'),
 ('Bring Me The Horizon', 'That''s The Spirit', 'Album', 'Bring Me The Horizon', 'Drown'),
@@ -164,7 +164,7 @@ insert into release_has_song(release_artist_name, release_title, release_type, s
 ('Luan Santana', 'Live-Móvel', 'EP', 'Luan Santana', 'Tudo que você quiser'), 
 ('Luan Santana', 'Morena', 'Single', 'Luan Santana', 'Morena');
 
-insert into user_likes_song(user_nickname, artist_name, song_title) values 
+INSERT INTO user_likes_song(user_nickname, artist_name, song_title) VALUES 
 ('ana_santos', 'Bring Me The Horizon', 'Throne'),
 ('ana_santos', 'Gus Dapperton', 'Coax & Botany'),
 ('ana_santos', 'Gus Dapperton', 'My Favorite Fish'),
@@ -202,7 +202,7 @@ insert into user_likes_song(user_nickname, artist_name, song_title) values
 ('celia_santos', 'Gus Dapperton', 'Coax & Botany'),
 ('diana_pereira', 'Bring Me The Horizon', 'In The Dark');
 
-insert into user_follows_artist (user_nickname, artist_name) values
+INSERT INTO user_follows_artist (user_nickname, artist_name) VALUES
 ('ana_santos', 'Bring Me The Horizon'),
 ('ana_santos', 'Gus Dapperton'),
 ('carla_pereira', 'Bring Me The Horizon'),
@@ -247,7 +247,7 @@ insert into user_follows_artist (user_nickname, artist_name) values
 ('celia_santos', 'Luan Santana'),
 ('diana_pereira', 'Bring Me The Horizon');
 
-insert into user_follows_playlist(follower_nickname, playlist_creator_nickname, playlist_name) values
+INSERT INTO user_follows_playlist(follower_nickname, playlist_creator_nickname, playlist_name) VALUES
 ('ana_santos', 'thiwan', 'Para Relaxar'),
 ('carla_pereira', 'hugo', 'Viagem Tranquila'),
 ('beatriz_goncalves', 'hugo', 'Músicas Para Se Concentrar'),
@@ -283,7 +283,7 @@ insert into user_follows_playlist(follower_nickname, playlist_creator_nickname, 
 ('mini_musculoso', 'hugo', 'Músicas Para Se Concentrar'),
 ('paula_vieira', 'ana_santos', 'Músicas para Animar o Dia');
 
-insert into playlist_has_song (user_nickname, playlist_name, artist_name, song_title, addition_date) values
+INSERT INTO playlist_has_song (user_nickname, playlist_name, artist_name, song_title, addition_date) VALUES
 ('thiwan', 'Para Relaxar', 'Luan Santana', 'Escreve Aí', '2022-05-20'),
 ('thiwan', 'Para Relaxar', 'Luan Santana', 'Sinais', '2022-06-02'),
 ('thiwan', 'Para Relaxar', 'Gus Dapperton', 'Ditch', '2022-07-12'),

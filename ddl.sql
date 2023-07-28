@@ -1,118 +1,118 @@
-create table artist(
-    artist_name varchar(50),
+CREATE TABLE artist (
+    artist_name VARCHAR(50),
     artist_about text,
-    artist_qt_likes bigint default 0,
-    artist_qt_followers bigint default 0,
+    artist_qt_likes BIGINT DEFAULT 0,
+    artist_qt_followers BIGINT DEFAULT 0,
 
-    primary key (artist_name)
+    PRIMARY KEY (artist_name)
 );
 
-create table release(
-    artist_name varchar(50),
-    release_title varchar(100),
-    release_type varchar(10) check (release_type in ('Album', 'EP', 'Single')),
-    release_date date not null check (release_date <= current_date),
+CREATE TABLE release (
+    artist_name VARCHAR(50),
+    release_title VARCHAR(100),
+    release_type VARCHAR(10) CHECK (release_type IN ('Album', 'EP', 'Single')),
+    release_date DATE NOT NULL CHECK (release_date <= CURRENT_DATE),
 
-    foreign key (artist_name) references artist(artist_name) on delete cascade on update cascade,
-    primary key (artist_name, release_title, release_type)
+    FOREIGN KEY (artist_name) REFERENCES artist(artist_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (artist_name, release_title, release_type)
 );
 
-create table song(
-    artist_name varchar(50),
-    song_title varchar(100),
-    song_duration interval not null check (song_duration > '00:00:00'),
-    song_qt_likes bigint default 0,
+CREATE TABLE song (
+    artist_name VARCHAR(50),
+    song_title VARCHAR(100),
+    song_duration INTERVAL NOT NULL CHECK (song_duration > '00:00:00'),
+    song_qt_likes BIGINT DEFAULT 0,
 
-    foreign key (artist_name) references artist(artist_name) on delete cascade on update cascade,
-    primary key (artist_name, song_title)
+    FOREIGN KEY (artist_name) REFERENCES artist(artist_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (artist_name, song_title)
 );
 
-create table feature(
-    artist_name varchar(50),
-    song_title varchar(100),
-    feature_name varchar(50),
+CREATE TABLE feature (
+    artist_name VARCHAR(50),
+    song_title VARCHAR(100),
+    feature_name VARCHAR(50),
 
-    foreign key (artist_name, song_title) references song(artist_name, song_title) on delete cascade on update cascade,
-    foreign key (feature_name) references artist(artist_name) on delete cascade on update cascade,
-    primary key (artist_name, song_title, feature_name)
+    FOREIGN KEY (artist_name, song_title) REFERENCES song(artist_name, song_title) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (feature_name) REFERENCES artist(artist_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (artist_name, song_title, feature_name)
 );
 
-create table genre(
-    artist_name varchar(50),
-    song_title varchar(100),
-    genre_name varchar(14) check (genre_name in ('Sertanejo', 'EDM', 'Brazilian Funk', 'Hip Hop', 'Pop', 'R&B', 'Rock', 'Metal', 'Punk')),
+CREATE TABLE genre (
+    artist_name VARCHAR(50),
+    song_title VARCHAR(100),
+    genre_name VARCHAR(14) CHECK (genre_name IN ('Sertanejo', 'EDM', 'Brazilian Funk', 'Hip Hop', 'Pop', 'R&B', 'Rock', 'Metal', 'Punk')),
 
-    foreign key (artist_name, song_title) references song(artist_name, song_title) on delete cascade on update cascade,
-    primary key (artist_name, song_title, genre_name)
+    FOREIGN KEY (artist_name, song_title) REFERENCES song(artist_name, song_title) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (artist_name, song_title, genre_name)
 );
 
-create table "user"(
-    user_nickname varchar(25),
-    user_name varchar(50),
-    user_email varchar(50) unique not null check (user_email like '_%@_%._%'),
+CREATE TABLE "user" (
+    user_nickname VARCHAR(25),
+    USER_NAME VARCHAR(50),
+    user_email VARCHAR(50) UNIQUE NOT NULL CHECK (user_email LIKE '_%@_%._%'),
 
-    primary key (user_nickname)
+    PRIMARY KEY (user_nickname)
 );
 
-create table playlist(
-    user_nickname varchar(25),
-    playlist_name varchar(50),
-    playlist_qt_followers bigint default 0,
+CREATE TABLE playlist (
+    user_nickname VARCHAR(25),
+    playlist_name VARCHAR(50),
+    playlist_qt_followers BIGINT DEFAULT 0,
 
-    foreign key (user_nickname) references "user"(user_nickname) on delete cascade on update cascade,
-    primary key (user_nickname, playlist_name)
+    FOREIGN KEY (user_nickname) REFERENCES "user"(user_nickname) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (user_nickname, playlist_name)
 );
 
-create table release_has_song(
-    release_artist_name varchar(50),
-    release_title varchar(100),
-    release_type varchar(10),
-    song_artist_name varchar(50),
-    song_title varchar(100),
+CREATE TABLE release_has_song (
+    release_artist_name VARCHAR(50),
+    release_title VARCHAR(100),
+    release_type VARCHAR(10),
+    song_artist_name VARCHAR(50),
+    song_title VARCHAR(100),
 
-    foreign key (release_artist_name, release_title, release_type) references release(artist_name, release_title, release_type) on delete cascade on update cascade,
-    foreign key (song_artist_name, song_title) references song(artist_name, song_title) on delete cascade on update cascade,
-    primary key (release_artist_name, release_title, release_type, song_artist_name, song_title)
+    FOREIGN KEY (release_artist_name, release_title, release_type) REFERENCES release(artist_name, release_title, release_type) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (song_artist_name, song_title) REFERENCES song(artist_name, song_title) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (release_artist_name, release_title, release_type, song_artist_name, song_title)
 );
 
-create table user_likes_song(
-    user_nickname varchar(25),
-    artist_name varchar(50),
-    song_title varchar(100),
-    like_date date not null default current_date check (like_date <= current_date),
+CREATE TABLE user_likes_song (
+    user_nickname VARCHAR(25),
+    artist_name VARCHAR(50),
+    song_title VARCHAR(100),
+    like_date DATE NOT NULL DEFAULT CURRENT_DATE CHECK (like_date <= CURRENT_DATE),
 
-    foreign key (user_nickname) references "user"(user_nickname) on delete cascade on update cascade,
-    foreign key (artist_name, song_title) references song(artist_name, song_title) on delete cascade on update cascade,
-    primary key (user_nickname, artist_name, song_title)
+    FOREIGN KEY (user_nickname) REFERENCES "user"(user_nickname) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (artist_name, song_title) REFERENCES song(artist_name, song_title) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (user_nickname, artist_name, song_title)
 );
 
-create table user_follows_artist(
-    user_nickname varchar(25),
-    artist_name varchar(50),
+CREATE TABLE user_follows_artist (
+    user_nickname VARCHAR(25),
+    artist_name VARCHAR(50),
 
-    foreign key (user_nickname) references "user"(user_nickname) on delete cascade on update cascade,
-    foreign key (artist_name) references artist(artist_name) on delete cascade on update cascade,
-    primary key (user_nickname, artist_name)
+    FOREIGN KEY (user_nickname) REFERENCES "user"(user_nickname) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (artist_name) REFERENCES artist(artist_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (user_nickname, artist_name)
 );
 
-create table user_follows_playlist(
-    follower_nickname varchar(25),
-    playlist_creator_nickname varchar(25),
-    playlist_name varchar(50),
+CREATE TABLE user_follows_playlist (
+    follower_nickname VARCHAR(25),
+    playlist_creator_nickname VARCHAR(25),
+    playlist_name VARCHAR(50),
 
-    foreign key (follower_nickname) references "user"(user_nickname) on delete cascade on update cascade,
-    foreign key (playlist_creator_nickname, playlist_name) references playlist(user_nickname, playlist_name) on delete cascade on update cascade,
-    primary key (follower_nickname, playlist_creator_nickname, playlist_name)
+    FOREIGN KEY (follower_nickname) REFERENCES "user"(user_nickname) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (playlist_creator_nickname, playlist_name) REFERENCES playlist(user_nickname, playlist_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (follower_nickname, playlist_creator_nickname, playlist_name)
 );
 
-create table playlist_has_song(
-    user_nickname varchar(25),
-    playlist_name varchar(50),
-    artist_name varchar(50),
-    song_title varchar(100),
-    addition_date date not null default current_date check (addition_date <= current_date),
+CREATE TABLE playlist_has_song (
+    user_nickname VARCHAR(25),
+    playlist_name VARCHAR(50),
+    artist_name VARCHAR(50),
+    song_title VARCHAR(100),
+    addition_date DATE NOT NULL DEFAULT CURRENT_DATE CHECK (addition_date <= CURRENT_DATE),
 
-    foreign key (user_nickname, playlist_name) references playlist(user_nickname, playlist_name) on delete cascade on update cascade,
-    foreign key (artist_name, song_title) references song(artist_name, song_title) on delete cascade on update cascade,
-    primary key (user_nickname, playlist_name, artist_name, song_title)
+    FOREIGN KEY (user_nickname, playlist_name) REFERENCES playlist(user_nickname, playlist_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (artist_name, song_title) REFERENCES song(artist_name, song_title) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (user_nickname, playlist_name, artist_name, song_title)
 );
