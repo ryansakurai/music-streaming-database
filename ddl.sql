@@ -48,7 +48,7 @@ CREATE TABLE genre (
 
 CREATE TABLE "user" (
     user_nickname VARCHAR(25),
-    USER_NAME VARCHAR(50),
+    user_name VARCHAR(50),
     user_email VARCHAR(50) UNIQUE NOT NULL CHECK (user_email LIKE '_%@_%._%'),
 
     PRIMARY KEY (user_nickname)
