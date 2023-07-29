@@ -10,8 +10,8 @@ This a streaming service database I projected for a university group project, us
 
 ## Authors
 
-- Caike dos Santos
-- Ryan Sakurai
-- Vinicius Castro
+- [Caike dos Santos](https://github.com/CaikeSantos)
+- [Ryan Sakurai](https://github.com/ryansakurai)
+- [Vinicius Castro](https://github.com/vinciuscastro)
 
 *(Computer Science students at UFSCar - Federal University of São Carlos)*
