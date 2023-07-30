@@ -1,6 +1,6 @@
 # Database Project
 
-This a streaming service database I projected for a university group project, using PostgreSQL.
+This a music streaming service database I projected for a university group project, using PostgreSQL.
 
 - Table creation can be found at [ddl.sql](ddl.sql)
 - Trigger creation can be found at [triggers.sql](triggers.sql)
