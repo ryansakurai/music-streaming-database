@@ -1,14 +1,16 @@
-# Database Project
+<h1 align="center"> 🎵 Database: Music Streaming Service 🎵 </h1>
 
-This is a music streaming service database I projected for a university group project, using PostgreSQL.
+This is a music streaming service database projected for a university group project using PostgreSQL.
 
-- Table creation can be found at [ddl.sql](ddl.sql)
-- Trigger creation can be found at [triggers.sql](triggers.sql)
-- View creation can be found at [view.sql](view.sql)
-- Not that accurate and kind of small set of data we generated using Chat GPT can be found at [sample_data.sql](sample_data.sql)
-- 10 queries we made can be found at [queries.sql](queries.sql)
+## 📂 Files
 
-## Authors
+- [ddl.sql](src/ddl.sql): table creation
+- [triggers.sql](src/triggers.sql): trigger creation
+- [view.sql](src/view.sql): view creation
+- [sample_data.sql](src/sample_data.sql): small set of data generated using Chat GPT
+- [queries.sql](src/queries.sql): 10 queries
+
+## 👨‍💻 Authors
 
 - [Caike dos Santos](https://github.com/CaikeSantos)
 - [Ryan Sakurai](https://github.com/ryansakurai)
